@@ -87,7 +87,7 @@ class CommentForUser(generics.ListAPIView):
             if self.request.query_params.get('to_date'):
                 filter_dict.update({
                 'created_at__lte': self.request.query_params.get('to_date')})
-            if self.request.query_params.get('repo'):
+            if self.request.query_params.get('repository'):
                 filter_dict.update({
                 'repository': self.request.query_params.get('repository')})
             try:
