@@ -32,6 +32,12 @@ def create_comment(comment_info, user_obj, commit_obj,repository_name):
     user_obj, created = User.objects.get_or_create(
         username=comment_info['user']['login'])
 
+    try:
+        rating =re.findall(r'Rating@\d{1}', comment_info.get('body'),re.IGNORECASE)[0][-1]
+    except:
+        rating = 'NA'
+
+
     comment_obj,created = GITComments.objects.get_or_create(
         git_comment_id=comment_info.get('id'),
         defaults = {
@@ -40,5 +46,6 @@ def create_comment(comment_info, user_obj, commit_obj,repository_name):
         'comment_url':comment_info.get('html_url'),
         'commented_by':user_obj,
         'commit':commit_obj,
+        'rating':rating,
         'created_at':datetime.strptime(comment_info.get('created_at').split('T')[0], '%Y-%m-%d')})
     return comment_obj
